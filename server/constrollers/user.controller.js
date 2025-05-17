@@ -31,7 +31,7 @@ export const register = async (req, res) => {
             message: "Account created successfully",
         });
     } catch (error) {
-        console.log(error);
+        console.log(error?.message || 'Unknown error');
         return res.status(500).json({
             success: false,
             message: error.message`failed to register.`
@@ -63,7 +63,7 @@ export const login = async (req, res) => {
         generateToken(res, user, `Welcome back ${user.name}`)
 
     } catch (error) {
-        console.log(error);
+        console.log(error?.message || 'Unknown error');
         return res.status(500).json({
             success: false,
             message: error.message || 'failed to login'
