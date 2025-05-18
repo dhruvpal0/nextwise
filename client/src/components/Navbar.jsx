@@ -171,6 +171,8 @@ export default Navbar;
               <SheetFooter>
                 <SheetClose asChild>
                   <Button type="submit" onClick={()=>navigate("/admin/dashboard")}>Dashboard</Button>
+                </SheetClose>
+                <SheetClose asChild>
                   <Button type="submit" onClick={()=>navigate("/admin/course")}>Courses</Button>
                 </SheetClose>
               </SheetFooter>
