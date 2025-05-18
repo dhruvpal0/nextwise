@@ -1,9 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { purchaseApi, useGetPurchaseCoursesQuery } from '@/features/api/purchaseApi';
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 import { ResponsiveContainer,LineChart, YAxis, Tooltip, Line, XAxis, CartesianGrid, } from 'recharts'
 
 function Dashboard() {
+  const navigate = useNavigate();
   const {data, isSuccess, isError, isLoading} = useGetPurchaseCoursesQuery();
 
   if(isLoading) return <h1> Loading...</h1>
@@ -18,6 +20,7 @@ function Dashboard() {
   const totalSales = purchasedCourse.length;
   return (
     <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-24 '>
+      <Button type="submit" onClick={()=>navigate("/admin/course")}>Courses</Button>
       <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
         <CardHeader>
           <CardTitle>Total Sales</CardTitle>
