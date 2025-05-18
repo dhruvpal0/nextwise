@@ -123,9 +123,26 @@ const Navbar = () => {
 export default Navbar;
 
   const MobileNavbar = ({user}) => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  // const role =  "instructor";
+  const [logoutUser, { data, isSuccess }] = useLogoutUserMutation();
+  const Navigate = useNavigate();
+  const logoutHandler = async () => {
+    try {
+      await logoutUser();
+      Navigate("/login");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  console.log(user);
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(data.message || "Logout successful");
+    }
+  }, [isSuccess])
+
   return (
     <div>
       <Sheet>
@@ -144,11 +161,10 @@ export default Navbar;
             <Link to="/my-learning"><span>My Learning</span> </Link>
             <Link to="profile"><span>Edit Profile</span></Link>
             { user ? 
-              <Link><p>Log out</p> </Link>
+              <Link><p onClick={logoutHandler}>Log out</p> </Link>
               :
               <Link><p onClick={()=> navigate("/login")}>Log In</p> </Link>
             }
-            <Link><p>Log out</p> </Link>
           </nav>
           {
             user?.role === 'instructor' && (
