@@ -1,7 +1,7 @@
 import EditLecture from '@/pages/admin/lecture/EditLecture';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const COURSE_API_URL = `${process.env.URL}/api/v1/course`   //"http://localhost:8080/api/v1/course";
+const COURSE_API_URL = `${import.meta.env.VITE_API_URL}/api/v1/course`   //"http://localhost:8080/api/v1/course";
 
 export const courseApi = createApi({
   reducerPath: "courseApi",

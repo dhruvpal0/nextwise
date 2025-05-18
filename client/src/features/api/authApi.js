@@ -1,62 +1,63 @@
-import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
-import { userLoggedIn } from '../authSlice';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { userLoggedIn, userLoggedOut } from '../authSlice';
 
-const USER_API_URL = `${process.env.URL}/api/v1/user/` //'http://localhost:8080/api/v1/user/';
+const USER_API_URL = `${import.meta.env.VITE_API_URL}/api/v1/user/` //'http://localhost:8080/api/v1/user/';
 
 export const authApi = createApi({
     reducerPath: 'authApi',
-    tagTypes:["Refetch_Logout"],
+    tagTypes: ["Refetch_Logout"],
     baseQuery: fetchBaseQuery({
         baseUrl: USER_API_URL,
-        credentials:"include",
+        credentials: "include",
     }),
     endpoints: (builder) => ({
         registerUser: builder.mutation({
             query: (inputData) => ({
-                url: 'register', 
-                method: 'POST', 
+                url: 'register',
+                method: 'POST',
                 body: inputData
             })
         }),
         loginUser: builder.mutation({
             query: (inputData) => ({
-                url: 'login', 
-                method: 'POST', 
+                url: 'login',
+                method: 'POST',
                 body: inputData
             }),
-            async onQueryStarted(_, {queryFulfilled, dispatch }) {
+            async onQueryStarted(_, { queryFulfilled, dispatch }) {
                 try {
-                    const result= await queryFulfilled;
-                    dispatch(userLoggedIn({user:result.data.user}));
+                    const result = await queryFulfilled;
+                    dispatch(userLoggedIn({ user: result.data.user }));
                 } catch (error) {
                     console.log(error);
                 }
-            }   
+            }
 
         }),
         logoutUser: builder.mutation({
-            query:()=>({
-                url:"logout",
-                method:"GET",
+            query: () => ({
+                url: "logout",
+                method: "GET",
             }),
-            async onQueryStarted(_, {queryFulfilled, dispatch }) {
+            async onQueryStarted(_, { queryFulfilled, dispatch }) {
                 try {
                     const result = await queryFulfilled;
-                    dispatch(userLoggedOut({user:null}));
+                    console.log("Logout success:", result.data);
+                    dispatch(userLoggedOut({ user: null }));
                 } catch (error) {
                     console.log(error);
                 }
-            }   
+            }
         }),
         loadUser: builder.query({
             query: () => ({
                 url: 'profile',
                 method: 'GET',
             }),
-            async onQueryStarted(_, {queryFulfilled, dispatch }) {
+            async onQueryStarted(_, { queryFulfilled, dispatch }) {
                 try {
-                    const result= await queryFulfilled;
-                    dispatch(userLoggedIn({user:result.data.user}));
+                    const result = await queryFulfilled;
+                    dispatch(userLoggedIn({ user: result.data.user }));
                 } catch (error) {
                     console.log(error);
                 }
@@ -67,16 +68,16 @@ export const authApi = createApi({
                 url: 'profile/update',
                 method: 'PUT',
                 body: formData,
-                credentials:'include'
+                credentials: 'include'
             })
         })
-    }) 
+    })
 })
 
-export const { 
-    useRegisterUserMutation, 
+export const {
+    useRegisterUserMutation,
     useLoginUserMutation,
-    useLogoutUserMutation, 
+    useLogoutUserMutation,
     useLoadUserQuery,
-    useUpdateUserMutation  
+    useUpdateUserMutation
 } = authApi;

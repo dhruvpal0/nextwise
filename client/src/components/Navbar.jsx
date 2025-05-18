@@ -103,7 +103,7 @@ const Navbar = () => {
                   <Button variant="outline" onClick={()=> navigate("/login")}>Login</Button>
                   <Button
                   className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition duration-200"
-                   onClick={()=> navigate("/login")}>Signup</Button>
+                  onClick={()=> navigate("/login")}>Signup</Button>
                 </div>
               )}
           <DarkMode />
@@ -143,6 +143,11 @@ export default Navbar;
           <nav className='flex flex-col space-y-4'>
             <Link to="/my-learning"><span>My Learning</span> </Link>
             <Link to="profile"><span>Edit Profile</span></Link>
+            { user ? 
+              <Link><p>Log out</p> </Link>
+              :
+              <Link><p onClick={()=> navigate("/login")}>Log In</p> </Link>
+            }
             <Link><p>Log out</p> </Link>
           </nav>
           {
